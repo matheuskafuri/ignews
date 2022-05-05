@@ -2,13 +2,12 @@ import { signIn, useSession } from 'next-auth/client';
 import { api } from '../../services/api';
 import styles from './styles.module.scss';
 import { getStripeJs } from '../../services/stripejs';
+// import { useRouter } from 'next/router';
 
-interface SubscribeButtonProps {
-  priceId: string;
-}
 
-export function SubscribeButton({ priceId }: SubscribeButtonProps) {
+export function SubscribeButton() {
   const [session] = useSession();
+  // const router = useRouter();
 
   async function handleSubscribe() {
     if(!session) {
