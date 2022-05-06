@@ -1,24 +1,28 @@
-import { signIn, useSession } from 'next-auth/client';
+import { useSession, signIn } from 'next-auth/client';
+import { useRouter } from 'next/router';
 import { api } from '../../services/api';
-import styles from './styles.module.scss';
 import { getStripeJs } from '../../services/stripejs';
-// import { useRouter } from 'next/router';
-
+import styles from './styles.module.scss';
 
 export function SubscribeButton() {
   const [session] = useSession();
-  // const router = useRouter();
+  const router = useRouter()
 
   async function handleSubscribe() {
-    if(!session) {
-      signIn('github');
+    if (!session) {
+      signIn('github')
+      return;
+    }
+
+    if (session.activeSubscription) {
+      router.push('/posts');
       return;
     }
 
     try {
       const response = await api.post('/subscribe')
 
-      const { sessionId } = response.data; 
+      const { sessionId } = response.data;
 
       const stripe = await getStripeJs()
 
@@ -28,7 +32,6 @@ export function SubscribeButton() {
     }
   }
 
-  
   return (
     <button
       type="button"

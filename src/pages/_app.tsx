@@ -12,7 +12,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       <Header />
       <Component {...pageProps} />
     </NextAuthProvider>
-  )
+  );
 }
 
 export default MyApp
